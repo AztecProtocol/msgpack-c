@@ -25,7 +25,7 @@
 
 #ifdef __wasm__
 struct AbortStream {
-    void operator<<(const auto& error) {
+    void operator<< [[noreturn]] (const auto& error) {
         info(error.what());
         std::abort();
     }
