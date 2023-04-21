@@ -1040,10 +1040,12 @@ inline bool operator==(const msgpack::object& x, const msgpack::object& y)
 
 template <typename T>
 inline bool operator==(const msgpack::object& x, const T& y)
+{
 try {
     return x == msgpack::object(y);
 } catch (msgpack::type_error&) {
     return false;
+}
 }
 
 inline bool operator!=(const msgpack::object& x, const msgpack::object& y)

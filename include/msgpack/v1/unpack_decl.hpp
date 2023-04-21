@@ -21,7 +21,7 @@
 #include <memory>
 #include <stdexcept>
 
-#if !defined(MSGPACK_USE_CPP03)
+#if !defined(MSGPACK_USE_CPP03) && !defined(__wasm__)
 #include <atomic>
 #endif
 
@@ -167,15 +167,15 @@ void decr_count(void* buffer);
 
 void incr_count(void* buffer);
 
-#if defined(MSGPACK_USE_CPP03)
+#if defined(MSGPACK_USE_CPP03) || defined(__wasm__)
 
 _msgpack_atomic_counter_t get_count(void* buffer);
 
-#else  // defined(MSGPACK_USE_CPP03)
+#else  // defined(MSGPACK_USE_CPP03) || defined(__wasm__)
 
 std::atomic<unsigned int> const& get_count(void* buffer);
 
-#endif // defined(MSGPACK_USE_CPP03)
+#endif // defined(MSGPACK_USE_CPP03) || defined(__wasm__)
 
 struct fix_tag {
     char f1[65]; // FIXME unique size is required. or use is_same meta function.
