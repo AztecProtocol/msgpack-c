@@ -910,7 +910,7 @@ inline void parser<VisitorHolder, ReferencedBufferHook>::expand_buffer(std::size
             }
             catch (...) {
                 ::free(tmp);
-                throw;
+                RETHROW;
             }
             static_cast<VisitorHolder&>(*this).set_referenced(false);
         } else {

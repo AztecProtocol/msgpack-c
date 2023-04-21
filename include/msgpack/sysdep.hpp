@@ -183,11 +183,11 @@
     } while (0);
 
 #define _msgpack_store16(to, num) \
-    do { uint16_t val = _msgpack_be16(num); memcpy(to, &val, 2); } while(0)
+    do { uint16_t val = (uint16_t)_msgpack_be16(num); memcpy(to, &val, 2); } while(0)
 #define _msgpack_store32(to, num) \
-    do { uint32_t val = _msgpack_be32(num); memcpy(to, &val, 4); } while(0)
+    do { uint32_t val = (uint32_t)_msgpack_be32(num); memcpy(to, &val, 4); } while(0)
 #define _msgpack_store64(to, num) \
-    do { uint64_t val = _msgpack_be64(num); memcpy(to, &val, 8); } while(0)
+    do { uint64_t val = (uint64_t)_msgpack_be64(num); memcpy(to, &val, 8); } while(0)
 
 /*
 #define _msgpack_load16(cast, from) \
