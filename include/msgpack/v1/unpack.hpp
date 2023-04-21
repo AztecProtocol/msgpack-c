@@ -23,7 +23,7 @@
 #include <memory>
 
 
-#if !defined(MSGPACK_USE_CPP03)
+#if !defined(MSGPACK_USE_CPP03) && !defined(__wasm__)
 #include <atomic>
 #endif
 
@@ -239,46 +239,46 @@ private:
 
 inline void init_count(void* buffer)
 {
-#if defined(MSGPACK_USE_CPP03)
+#if defined(MSGPACK_USE_CPP03) || defined(__wasm__)
     *reinterpret_cast<volatile _msgpack_atomic_counter_t*>(buffer) = 1;
-#else  // defined(MSGPACK_USE_CPP03)
+#else  // defined(MSGPACK_USE_CPP03) || defined(__wasm__)
     new (buffer) std::atomic<unsigned int>(1);
-#endif // defined(MSGPACK_USE_CPP03)
+#endif // defined(MSGPACK_USE_CPP03) || defined(__wasm__)
 }
 
 inline void decr_count(void* buffer)
 {
-#if defined(MSGPACK_USE_CPP03)
+#if defined(MSGPACK_USE_CPP03) || defined(__wasm__)
     if(_msgpack_sync_decr_and_fetch(reinterpret_cast<volatile _msgpack_atomic_counter_t*>(buffer)) == 0) {
         free(buffer);
     }
-#else  // defined(MSGPACK_USE_CPP03)
+#else  // defined(MSGPACK_USE_CPP03) || defined(__wasm__)
     if (--*reinterpret_cast<std::atomic<unsigned int>*>(buffer) == 0) {
         free(buffer);
     }
-#endif // defined(MSGPACK_USE_CPP03)
+#endif // defined(MSGPACK_USE_CPP03) || defined(__wasm__)
 }
 
 inline void incr_count(void* buffer)
 {
-#if defined(MSGPACK_USE_CPP03)
+#if defined(MSGPACK_USE_CPP03) || defined(__wasm__)
     _msgpack_sync_incr_and_fetch(reinterpret_cast<volatile _msgpack_atomic_counter_t*>(buffer));
-#else  // defined(MSGPACK_USE_CPP03)
+#else  // defined(MSGPACK_USE_CPP03) || defined(__wasm__)
     ++*reinterpret_cast<std::atomic<unsigned int>*>(buffer);
-#endif // defined(MSGPACK_USE_CPP03)
+#endif // defined(MSGPACK_USE_CPP03) || defined(__wasm__)
 }
 
-#if defined(MSGPACK_USE_CPP03)
+#if defined(MSGPACK_USE_CPP03) || defined(__wasm__)
 inline _msgpack_atomic_counter_t get_count(void* buffer)
 {
     return *reinterpret_cast<volatile _msgpack_atomic_counter_t*>(buffer);
 }
-#else  // defined(MSGPACK_USE_CPP03)
+#else  // defined(MSGPACK_USE_CPP03) || defined(__wasm__)
 inline std::atomic<unsigned int> const& get_count(void* buffer)
 {
     return *reinterpret_cast<std::atomic<unsigned int>*>(buffer);
 }
-#endif // defined(MSGPACK_USE_CPP03)
+#endif // defined(MSGPACK_USE_CPP03) || defined(__wasm__)
 
 template <typename T>
 struct value {
@@ -873,10 +873,10 @@ public:
              std::size_t initial_buffer_size = MSGPACK_UNPACKER_INIT_BUFFER_SIZE,
              unpack_limit const& limit = unpack_limit());
 
-#if !defined(MSGPACK_USE_CPP03)
+#if !defined(MSGPACK_USE_CPP03) && !defined(__wasm__)
     unpacker(unpacker&& other);
     unpacker& operator=(unpacker&& other);
-#endif // !defined(MSGPACK_USE_CPP03)
+#endif // !defined(MSGPACK_USE_CPP03) && !defined(__wasm__)
 
     ~unpacker();
 
@@ -1049,14 +1049,14 @@ private:
     std::size_t m_initial_buffer_size;
     detail::context m_ctx;
 
-#if defined(MSGPACK_USE_CPP03)
+#if defined(MSGPACK_USE_CPP03) || defined(__wasm__)
 private:
     unpacker(const unpacker&);
     unpacker& operator=(const unpacker&);
-#else  // defined(MSGPACK_USE_CPP03)
+#else  // defined(MSGPACK_USE_CPP03) || defined(__wasm__)
     unpacker(const unpacker&) = delete;
     unpacker& operator=(const unpacker&) = delete;
-#endif // defined(MSGPACK_USE_CPP03)
+#endif // defined(MSGPACK_USE_CPP03) || defined(__wasm__)
 };
 
 inline unpacker::unpacker(unpack_reference_func f,
@@ -1088,7 +1088,7 @@ inline unpacker::unpacker(unpack_reference_func f,
     m_ctx.user().set_referenced(false);
 }
 
-#if !defined(MSGPACK_USE_CPP03)
+#if !defined(MSGPACK_USE_CPP03) && !defined(__wasm__)
 // Move constructor and move assignment operator
 
 inline unpacker::unpacker(unpacker&& other)
@@ -1109,7 +1109,7 @@ inline unpacker& unpacker::operator=(unpacker&& other) {
     return *this;
 }
 
-#endif // !defined(MSGPACK_USE_CPP03)
+#endif // !defined(MSGPACK_USE_CPP03) && !defined(__wasm__)
 
 
 inline unpacker::~unpacker()
@@ -1183,7 +1183,7 @@ inline void unpacker::expand_buffer(std::size_t size)
             }
             catch (...) {
                 ::free(tmp);
-                throw;
+                RETHROW;
             }
             m_ctx.user().set_referenced(false);
         } else {

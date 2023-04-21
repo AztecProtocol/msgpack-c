@@ -23,4 +23,19 @@
 
 #endif // defined(MSGPACK_NO_BOOST)
 
+#ifdef __wasm__
+struct AbortStream {
+    void operator<< [[noreturn]] (const auto& error) {
+        info(error.what());
+        std::abort();
+    }
+};
+#define throw AbortStream() <<
+#define try if (true)
+#define catch(...) if (false)
+#define RETHROW  
+#else
+#define RETHROW throw 
+#endif
+
 #endif // MSGPACK_ASSERT_HPP

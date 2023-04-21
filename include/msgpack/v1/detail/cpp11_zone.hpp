@@ -343,14 +343,14 @@ T* zone::allocate(Args... args)
         m_finalizer_array.push(&zone::object_destruct<T>, x);
     } catch (...) {
         undo_allocate(sizeof(T));
-        throw;
+        RETHROW;
     }
     try {
         return new (x) T(args...);
     } catch (...) {
         --m_finalizer_array.m_tail;
         undo_allocate(sizeof(T));
-        throw;
+        RETHROW;
     }
 }
 
