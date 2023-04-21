@@ -116,7 +116,7 @@ struct as<std::tuple<Args...>, typename std::enable_if<msgpack::any_of<msgpack::
         msgpack::object const& o) const {
         if (o.type != msgpack::type::ARRAY) { throw msgpack::type_error(); }
         // <barretenberg>
-        if ((o.via.array.size != sizeof...(Args)) {
+        if (o.via.array.size != sizeof...(Args)) {
             throw msgpack::unpack_error(std::string("tuple array not right size, got ") + std::to_string(o.via.array.size) + " but expected " + std::to_string(sizeof...(Args)));
         }
         // </barretenberg>
