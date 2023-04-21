@@ -12,6 +12,7 @@
 
 #include "msgpack/v1/adaptor/detail/cpp11_define_map_decl.hpp"
 #include "msgpack/v1/adaptor/detail/cpp11_convert_helper.hpp"
+#include "msgpack/v3/object_fwd_decl.hpp"
 
 #include <tuple>
 #include <map>
@@ -36,6 +37,10 @@ struct define_map_imp {
         auto it = kvmap.find(std::get<N-2>(t));
         if (it != kvmap.end()) {
             convert_helper(*it->second, std::get<N-1>(t));
+        } else {
+            // <barretenberg>
+            throw msgpack::unpack_error(std::string("Missing field " + std::get<N-2>(t)));
+            // </barretenberg>
         }
     }
     static void object(msgpack::object* o, msgpack::zone& z, Tuple const& t) {
