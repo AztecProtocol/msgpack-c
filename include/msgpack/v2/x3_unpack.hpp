@@ -41,7 +41,7 @@ unpack_imp(Iterator&& begin, Iterator&& end,
     referenced = false;
     v.set_referenced(referenced);
     if (!parse(std::forward<Iterator>(begin), std::forward<Iterator>(end), v)) {
-        throw msgpack::parse_error("parse error");
+        THROW msgpack::parse_error("parse error");
     }
     referenced = v.referenced();
     result = v.data();

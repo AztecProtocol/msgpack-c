@@ -37,7 +37,7 @@ struct convert<std::array<std::byte, N> > {
         switch (o.type) {
         case msgpack::type::BIN:
             if (o.via.bin.size != N)
-                throw msgpack::type_error();
+                THROW msgpack::type_error();
             if (N != 0) {
 #if defined(__GNUC__) && (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 7)) && !defined(__clang__)
 #pragma GCC diagnostic push
@@ -51,7 +51,7 @@ struct convert<std::array<std::byte, N> > {
             break;
         case msgpack::type::STR:
             if (o.via.bin.size != N)
-                throw msgpack::type_error();
+                THROW msgpack::type_error();
             if (N != 0) {
 #if defined(__GNUC__) && (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 7)) && !defined(__clang__)
 #pragma GCC diagnostic push
@@ -64,7 +64,7 @@ struct convert<std::array<std::byte, N> > {
             }
             break;
         default:
-            throw msgpack::type_error();
+            THROW msgpack::type_error();
             break;
         }
         return o;

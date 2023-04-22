@@ -39,7 +39,7 @@ struct define_map_imp {
             convert_helper(*it->second, std::get<N-1>(t));
         } else {
             // <barretenberg>
-            throw msgpack::unpack_error(std::string("Missing field ") + std::get<N-2>(t));
+            THROW msgpack::unpack_error(std::string("Missing field ") + std::get<N-2>(t));
             // </barretenberg>
         }
     }
@@ -74,10 +74,10 @@ struct define_map {
     }
     void msgpack_unpack(msgpack::object const& o) const
     {
-        if(o.type != msgpack::type::MAP) { throw msgpack::type_error(); }
+        if(o.type != msgpack::type::MAP) { THROW msgpack::type_error(); }
         std::map<std::string, msgpack::object const*> kvmap;
         for (uint32_t i = 0; i < o.via.map.size; ++i) {
-            if (o.via.map.ptr[i].key.type != msgpack::type::STR) { throw msgpack::type_error(); }
+            if (o.via.map.ptr[i].key.type != msgpack::type::STR) { THROW msgpack::type_error(); }
             kvmap.emplace(
                 std::string(
                     o.via.map.ptr[i].key.via.str.ptr,

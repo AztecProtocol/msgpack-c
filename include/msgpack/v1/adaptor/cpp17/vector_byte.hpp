@@ -62,7 +62,7 @@ struct convert<std::vector<std::byte, Alloc> > {
             }
             break;
         default:
-            throw msgpack::type_error();
+            THROW msgpack::type_error();
             break;
         }
         return o;

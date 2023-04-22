@@ -71,13 +71,13 @@ struct convert<type::size_equal_only<T> > {
     msgpack::object const& operator()(msgpack::object const& o, type::size_equal_only<T>& v) const {
         switch(o.type) {
         case msgpack::type::ARRAY:
-            if (o.via.array.size != msgpack::type::size(v.m_t)) throw msgpack::type_error();
+            if (o.via.array.size != msgpack::type::size(v.m_t)) THROW msgpack::type_error();
             break;
         case msgpack::type::MAP:
-            if (o.via.map.size != msgpack::type::size(v.m_t)) throw msgpack::type_error();
+            if (o.via.map.size != msgpack::type::size(v.m_t)) THROW msgpack::type_error();
             break;
         default:
-            throw msgpack::type_error();
+            THROW msgpack::type_error();
         }
         o >> v.m_t;
         return o;

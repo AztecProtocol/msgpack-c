@@ -32,7 +32,7 @@ public:
         MSGPACK_ASSERT(buf || len == 0);
         if (!buf) return;
         if (1 != fwrite(buf, len, 1, m_file)) {
-            throw std::runtime_error("fwrite() failed");
+            THROW std::runtime_error("fwrite() failed");
         }
     }
 

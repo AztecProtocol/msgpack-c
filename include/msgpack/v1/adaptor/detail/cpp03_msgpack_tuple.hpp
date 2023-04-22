@@ -10615,7 +10615,7 @@ struct convert<type::tuple<> > {
     msgpack::object const& operator()(
         msgpack::object const& o,
         type::tuple<>&) const {
-        if(o.type != msgpack::type::ARRAY) { throw msgpack::type_error(); }
+        if(o.type != msgpack::type::ARRAY) { THROW msgpack::type_error(); }
         return o;
     }
 };
@@ -10627,7 +10627,7 @@ struct convert<type::tuple<A0> > {
     msgpack::object const& operator()(
         msgpack::object const& o,
         type::tuple<A0>& v) const {
-        if(o.type != msgpack::type::ARRAY) { throw msgpack::type_error(); }
+        if(o.type != msgpack::type::ARRAY) { THROW msgpack::type_error(); }
         
         // In order to avoid clang++'s invalid warning, msgpack::object:: has been added.
         if(o.via.array.size > 0)
@@ -10641,7 +10641,7 @@ struct convert<type::tuple<A0, A1> > {
     msgpack::object const& operator()(
         msgpack::object const& o,
         type::tuple<A0, A1>& v) const {
-        if(o.type != msgpack::type::ARRAY) { throw msgpack::type_error(); }
+        if(o.type != msgpack::type::ARRAY) { THROW msgpack::type_error(); }
         
         // In order to avoid clang++'s invalid warning, msgpack::object:: has been added.
         if(o.via.array.size > 0)
@@ -10658,7 +10658,7 @@ struct convert<type::tuple<A0, A1, A2> > {
     msgpack::object const& operator()(
         msgpack::object const& o,
         type::tuple<A0, A1, A2>& v) const {
-        if(o.type != msgpack::type::ARRAY) { throw msgpack::type_error(); }
+        if(o.type != msgpack::type::ARRAY) { THROW msgpack::type_error(); }
         
         // In order to avoid clang++'s invalid warning, msgpack::object:: has been added.
         if(o.via.array.size > 0)
@@ -10678,7 +10678,7 @@ struct convert<type::tuple<A0, A1, A2, A3> > {
     msgpack::object const& operator()(
         msgpack::object const& o,
         type::tuple<A0, A1, A2, A3>& v) const {
-        if(o.type != msgpack::type::ARRAY) { throw msgpack::type_error(); }
+        if(o.type != msgpack::type::ARRAY) { THROW msgpack::type_error(); }
         
         // In order to avoid clang++'s invalid warning, msgpack::object:: has been added.
         if(o.via.array.size > 0)
@@ -10701,7 +10701,7 @@ struct convert<type::tuple<A0, A1, A2, A3, A4> > {
     msgpack::object const& operator()(
         msgpack::object const& o,
         type::tuple<A0, A1, A2, A3, A4>& v) const {
-        if(o.type != msgpack::type::ARRAY) { throw msgpack::type_error(); }
+        if(o.type != msgpack::type::ARRAY) { THROW msgpack::type_error(); }
         
         // In order to avoid clang++'s invalid warning, msgpack::object:: has been added.
         if(o.via.array.size > 0)
@@ -10727,7 +10727,7 @@ struct convert<type::tuple<A0, A1, A2, A3, A4, A5> > {
     msgpack::object const& operator()(
         msgpack::object const& o,
         type::tuple<A0, A1, A2, A3, A4, A5>& v) const {
-        if(o.type != msgpack::type::ARRAY) { throw msgpack::type_error(); }
+        if(o.type != msgpack::type::ARRAY) { THROW msgpack::type_error(); }
         
         // In order to avoid clang++'s invalid warning, msgpack::object:: has been added.
         if(o.via.array.size > 0)
@@ -10756,7 +10756,7 @@ struct convert<type::tuple<A0, A1, A2, A3, A4, A5, A6> > {
     msgpack::object const& operator()(
         msgpack::object const& o,
         type::tuple<A0, A1, A2, A3, A4, A5, A6>& v) const {
-        if(o.type != msgpack::type::ARRAY) { throw msgpack::type_error(); }
+        if(o.type != msgpack::type::ARRAY) { THROW msgpack::type_error(); }
         
         // In order to avoid clang++'s invalid warning, msgpack::object:: has been added.
         if(o.via.array.size > 0)
@@ -10788,7 +10788,7 @@ struct convert<type::tuple<A0, A1, A2, A3, A4, A5, A6, A7> > {
     msgpack::object const& operator()(
         msgpack::object const& o,
         type::tuple<A0, A1, A2, A3, A4, A5, A6, A7>& v) const {
-        if(o.type != msgpack::type::ARRAY) { throw msgpack::type_error(); }
+        if(o.type != msgpack::type::ARRAY) { THROW msgpack::type_error(); }
         
         // In order to avoid clang++'s invalid warning, msgpack::object:: has been added.
         if(o.via.array.size > 0)
@@ -10823,7 +10823,7 @@ struct convert<type::tuple<A0, A1, A2, A3, A4, A5, A6, A7, A8> > {
     msgpack::object const& operator()(
         msgpack::object const& o,
         type::tuple<A0, A1, A2, A3, A4, A5, A6, A7, A8>& v) const {
-        if(o.type != msgpack::type::ARRAY) { throw msgpack::type_error(); }
+        if(o.type != msgpack::type::ARRAY) { THROW msgpack::type_error(); }
         
         // In order to avoid clang++'s invalid warning, msgpack::object:: has been added.
         if(o.via.array.size > 0)
@@ -10861,7 +10861,7 @@ struct convert<type::tuple<A0, A1, A2, A3, A4, A5, A6, A7, A8, A9> > {
     msgpack::object const& operator()(
         msgpack::object const& o,
         type::tuple<A0, A1, A2, A3, A4, A5, A6, A7, A8, A9>& v) const {
-        if(o.type != msgpack::type::ARRAY) { throw msgpack::type_error(); }
+        if(o.type != msgpack::type::ARRAY) { THROW msgpack::type_error(); }
         
         // In order to avoid clang++'s invalid warning, msgpack::object:: has been added.
         if(o.via.array.size > 0)
@@ -10902,7 +10902,7 @@ struct convert<type::tuple<A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10> > {
     msgpack::object const& operator()(
         msgpack::object const& o,
         type::tuple<A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>& v) const {
-        if(o.type != msgpack::type::ARRAY) { throw msgpack::type_error(); }
+        if(o.type != msgpack::type::ARRAY) { THROW msgpack::type_error(); }
         
         // In order to avoid clang++'s invalid warning, msgpack::object:: has been added.
         if(o.via.array.size > 0)
@@ -10946,7 +10946,7 @@ struct convert<type::tuple<A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11> > {
     msgpack::object const& operator()(
         msgpack::object const& o,
         type::tuple<A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11>& v) const {
-        if(o.type != msgpack::type::ARRAY) { throw msgpack::type_error(); }
+        if(o.type != msgpack::type::ARRAY) { THROW msgpack::type_error(); }
         
         // In order to avoid clang++'s invalid warning, msgpack::object:: has been added.
         if(o.via.array.size > 0)
@@ -10993,7 +10993,7 @@ struct convert<type::tuple<A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12
     msgpack::object const& operator()(
         msgpack::object const& o,
         type::tuple<A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12>& v) const {
-        if(o.type != msgpack::type::ARRAY) { throw msgpack::type_error(); }
+        if(o.type != msgpack::type::ARRAY) { THROW msgpack::type_error(); }
         
         // In order to avoid clang++'s invalid warning, msgpack::object:: has been added.
         if(o.via.array.size > 0)
@@ -11043,7 +11043,7 @@ struct convert<type::tuple<A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12
     msgpack::object const& operator()(
         msgpack::object const& o,
         type::tuple<A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13>& v) const {
-        if(o.type != msgpack::type::ARRAY) { throw msgpack::type_error(); }
+        if(o.type != msgpack::type::ARRAY) { THROW msgpack::type_error(); }
         
         // In order to avoid clang++'s invalid warning, msgpack::object:: has been added.
         if(o.via.array.size > 0)
@@ -11096,7 +11096,7 @@ struct convert<type::tuple<A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12
     msgpack::object const& operator()(
         msgpack::object const& o,
         type::tuple<A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14>& v) const {
-        if(o.type != msgpack::type::ARRAY) { throw msgpack::type_error(); }
+        if(o.type != msgpack::type::ARRAY) { THROW msgpack::type_error(); }
         
         // In order to avoid clang++'s invalid warning, msgpack::object:: has been added.
         if(o.via.array.size > 0)
@@ -11152,7 +11152,7 @@ struct convert<type::tuple<A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12
     msgpack::object const& operator()(
         msgpack::object const& o,
         type::tuple<A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15>& v) const {
-        if(o.type != msgpack::type::ARRAY) { throw msgpack::type_error(); }
+        if(o.type != msgpack::type::ARRAY) { THROW msgpack::type_error(); }
         
         // In order to avoid clang++'s invalid warning, msgpack::object:: has been added.
         if(o.via.array.size > 0)
@@ -11211,7 +11211,7 @@ struct convert<type::tuple<A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12
     msgpack::object const& operator()(
         msgpack::object const& o,
         type::tuple<A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16>& v) const {
-        if(o.type != msgpack::type::ARRAY) { throw msgpack::type_error(); }
+        if(o.type != msgpack::type::ARRAY) { THROW msgpack::type_error(); }
         
         // In order to avoid clang++'s invalid warning, msgpack::object:: has been added.
         if(o.via.array.size > 0)
@@ -11273,7 +11273,7 @@ struct convert<type::tuple<A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12
     msgpack::object const& operator()(
         msgpack::object const& o,
         type::tuple<A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17>& v) const {
-        if(o.type != msgpack::type::ARRAY) { throw msgpack::type_error(); }
+        if(o.type != msgpack::type::ARRAY) { THROW msgpack::type_error(); }
         
         // In order to avoid clang++'s invalid warning, msgpack::object:: has been added.
         if(o.via.array.size > 0)
@@ -11338,7 +11338,7 @@ struct convert<type::tuple<A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12
     msgpack::object const& operator()(
         msgpack::object const& o,
         type::tuple<A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18>& v) const {
-        if(o.type != msgpack::type::ARRAY) { throw msgpack::type_error(); }
+        if(o.type != msgpack::type::ARRAY) { THROW msgpack::type_error(); }
         
         // In order to avoid clang++'s invalid warning, msgpack::object:: has been added.
         if(o.via.array.size > 0)
@@ -11406,7 +11406,7 @@ struct convert<type::tuple<A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12
     msgpack::object const& operator()(
         msgpack::object const& o,
         type::tuple<A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, A19>& v) const {
-        if(o.type != msgpack::type::ARRAY) { throw msgpack::type_error(); }
+        if(o.type != msgpack::type::ARRAY) { THROW msgpack::type_error(); }
         
         // In order to avoid clang++'s invalid warning, msgpack::object:: has been added.
         if(o.via.array.size > 0)
@@ -11477,7 +11477,7 @@ struct convert<type::tuple<A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12
     msgpack::object const& operator()(
         msgpack::object const& o,
         type::tuple<A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, A19, A20>& v) const {
-        if(o.type != msgpack::type::ARRAY) { throw msgpack::type_error(); }
+        if(o.type != msgpack::type::ARRAY) { THROW msgpack::type_error(); }
         
         // In order to avoid clang++'s invalid warning, msgpack::object:: has been added.
         if(o.via.array.size > 0)
@@ -11551,7 +11551,7 @@ struct convert<type::tuple<A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12
     msgpack::object const& operator()(
         msgpack::object const& o,
         type::tuple<A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, A19, A20, A21>& v) const {
-        if(o.type != msgpack::type::ARRAY) { throw msgpack::type_error(); }
+        if(o.type != msgpack::type::ARRAY) { THROW msgpack::type_error(); }
         
         // In order to avoid clang++'s invalid warning, msgpack::object:: has been added.
         if(o.via.array.size > 0)
@@ -11628,7 +11628,7 @@ struct convert<type::tuple<A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12
     msgpack::object const& operator()(
         msgpack::object const& o,
         type::tuple<A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, A19, A20, A21, A22>& v) const {
-        if(o.type != msgpack::type::ARRAY) { throw msgpack::type_error(); }
+        if(o.type != msgpack::type::ARRAY) { THROW msgpack::type_error(); }
         
         // In order to avoid clang++'s invalid warning, msgpack::object:: has been added.
         if(o.via.array.size > 0)
@@ -11708,7 +11708,7 @@ struct convert<type::tuple<A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12
     msgpack::object const& operator()(
         msgpack::object const& o,
         type::tuple<A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, A19, A20, A21, A22, A23>& v) const {
-        if(o.type != msgpack::type::ARRAY) { throw msgpack::type_error(); }
+        if(o.type != msgpack::type::ARRAY) { THROW msgpack::type_error(); }
         
         // In order to avoid clang++'s invalid warning, msgpack::object:: has been added.
         if(o.via.array.size > 0)
@@ -11791,7 +11791,7 @@ struct convert<type::tuple<A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12
     msgpack::object const& operator()(
         msgpack::object const& o,
         type::tuple<A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, A19, A20, A21, A22, A23, A24>& v) const {
-        if(o.type != msgpack::type::ARRAY) { throw msgpack::type_error(); }
+        if(o.type != msgpack::type::ARRAY) { THROW msgpack::type_error(); }
         
         // In order to avoid clang++'s invalid warning, msgpack::object:: has been added.
         if(o.via.array.size > 0)
@@ -11877,7 +11877,7 @@ struct convert<type::tuple<A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12
     msgpack::object const& operator()(
         msgpack::object const& o,
         type::tuple<A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, A19, A20, A21, A22, A23, A24, A25>& v) const {
-        if(o.type != msgpack::type::ARRAY) { throw msgpack::type_error(); }
+        if(o.type != msgpack::type::ARRAY) { THROW msgpack::type_error(); }
         
         // In order to avoid clang++'s invalid warning, msgpack::object:: has been added.
         if(o.via.array.size > 0)
@@ -11966,7 +11966,7 @@ struct convert<type::tuple<A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12
     msgpack::object const& operator()(
         msgpack::object const& o,
         type::tuple<A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, A19, A20, A21, A22, A23, A24, A25, A26>& v) const {
-        if(o.type != msgpack::type::ARRAY) { throw msgpack::type_error(); }
+        if(o.type != msgpack::type::ARRAY) { THROW msgpack::type_error(); }
         
         // In order to avoid clang++'s invalid warning, msgpack::object:: has been added.
         if(o.via.array.size > 0)
@@ -12058,7 +12058,7 @@ struct convert<type::tuple<A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12
     msgpack::object const& operator()(
         msgpack::object const& o,
         type::tuple<A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, A19, A20, A21, A22, A23, A24, A25, A26, A27>& v) const {
-        if(o.type != msgpack::type::ARRAY) { throw msgpack::type_error(); }
+        if(o.type != msgpack::type::ARRAY) { THROW msgpack::type_error(); }
         
         // In order to avoid clang++'s invalid warning, msgpack::object:: has been added.
         if(o.via.array.size > 0)
@@ -12153,7 +12153,7 @@ struct convert<type::tuple<A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12
     msgpack::object const& operator()(
         msgpack::object const& o,
         type::tuple<A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, A19, A20, A21, A22, A23, A24, A25, A26, A27, A28>& v) const {
-        if(o.type != msgpack::type::ARRAY) { throw msgpack::type_error(); }
+        if(o.type != msgpack::type::ARRAY) { THROW msgpack::type_error(); }
         
         // In order to avoid clang++'s invalid warning, msgpack::object:: has been added.
         if(o.via.array.size > 0)
@@ -12251,7 +12251,7 @@ struct convert<type::tuple<A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12
     msgpack::object const& operator()(
         msgpack::object const& o,
         type::tuple<A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, A19, A20, A21, A22, A23, A24, A25, A26, A27, A28, A29>& v) const {
-        if(o.type != msgpack::type::ARRAY) { throw msgpack::type_error(); }
+        if(o.type != msgpack::type::ARRAY) { THROW msgpack::type_error(); }
         
         // In order to avoid clang++'s invalid warning, msgpack::object:: has been added.
         if(o.via.array.size > 0)
@@ -12352,7 +12352,7 @@ struct convert<type::tuple<A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12
     msgpack::object const& operator()(
         msgpack::object const& o,
         type::tuple<A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, A19, A20, A21, A22, A23, A24, A25, A26, A27, A28, A29, A30>& v) const {
-        if(o.type != msgpack::type::ARRAY) { throw msgpack::type_error(); }
+        if(o.type != msgpack::type::ARRAY) { THROW msgpack::type_error(); }
         
         // In order to avoid clang++'s invalid warning, msgpack::object:: has been added.
         if(o.via.array.size > 0)
@@ -12456,7 +12456,7 @@ struct convert<type::tuple<A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12
     msgpack::object const& operator()(
         msgpack::object const& o,
         type::tuple<A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, A19, A20, A21, A22, A23, A24, A25, A26, A27, A28, A29, A30, A31>& v) const {
-        if(o.type != msgpack::type::ARRAY) { throw msgpack::type_error(); }
+        if(o.type != msgpack::type::ARRAY) { THROW msgpack::type_error(); }
         
         // In order to avoid clang++'s invalid warning, msgpack::object:: has been added.
         if(o.via.array.size > 0)

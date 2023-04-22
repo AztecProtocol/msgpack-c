@@ -62,7 +62,7 @@ namespace adaptor {
 template <>
 struct convert<type::raw_ref> {
     msgpack::object const& operator()(msgpack::object const& o, type::raw_ref& v) const {
-        if(o.type != msgpack::type::BIN) { throw msgpack::type_error(); }
+        if(o.type != msgpack::type::BIN) { THROW msgpack::type_error(); }
         v.ptr  = o.via.bin.ptr;
         v.size = o.via.bin.size;
         return o;

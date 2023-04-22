@@ -57,7 +57,7 @@ struct convert<std::vector<char, Alloc> > {
             }
             break;
         default:
-            throw msgpack::type_error();
+            THROW msgpack::type_error();
             break;
         }
         return o;

@@ -43,7 +43,7 @@ namespace adaptor {
                 v = std::span(reinterpret_cast<const byte_t*>(o.via.bin.ptr), o.via.bin.size);                      \
                 break;                                                                                              \
             default:                                                                                                \
-                throw msgpack::type_error();                                                                        \
+                THROW msgpack::type_error();                                                                        \
                 break;                                                                                              \
             }                                                                                                       \
             return o;                                                                                               \

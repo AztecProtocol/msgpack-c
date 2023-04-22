@@ -31,8 +31,8 @@ template <typename T1, typename T2>
 struct as<std::pair<T1, T2>,
           typename std::enable_if<msgpack::any_of<msgpack::has_as, T1, T2>::value>::type> {
     std::pair<T1, T2> operator()(msgpack::object const& o) const {
-        if (o.type != msgpack::type::ARRAY) { throw msgpack::type_error(); }
-        if (o.via.array.size != 2) { throw msgpack::type_error(); }
+        if (o.type != msgpack::type::ARRAY) { THROW msgpack::type_error(); }
+        if (o.via.array.size != 2) { THROW msgpack::type_error(); }
         return std::make_pair(o.via.array.ptr[0].as<T1>(), o.via.array.ptr[1].as<T2>());
     }
 };
@@ -42,8 +42,8 @@ struct as<std::pair<T1, T2>,
 template <typename T1, typename T2>
 struct convert<std::pair<T1, T2> > {
     msgpack::object const& operator()(msgpack::object const& o, std::pair<T1, T2>& v) const {
-        if(o.type != msgpack::type::ARRAY) { throw msgpack::type_error(); }
-        if(o.via.array.size != 2) { throw msgpack::type_error(); }
+        if(o.type != msgpack::type::ARRAY) { THROW msgpack::type_error(); }
+        if(o.via.array.size != 2) { THROW msgpack::type_error(); }
         o.via.array.ptr[0].convert(v.first);
         o.via.array.ptr[1].convert(v.second);
         return o;
