@@ -39,7 +39,7 @@ struct define_map_imp {
             convert_helper(*it->second, std::get<N-1>(t));
         } else {
             // <barretenberg>
-            throw msgpack::unpack_error(std::string("Missing field " + std::get<N-2>(t)));
+            throw msgpack::unpack_error(std::string("Missing field ") + std::get<N-2>(t));
             // </barretenberg>
         }
     }
