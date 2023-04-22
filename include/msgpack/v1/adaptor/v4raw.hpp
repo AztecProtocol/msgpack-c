@@ -61,7 +61,7 @@ namespace adaptor {
 template <>
 struct convert<type::v4raw_ref> {
     msgpack::object const& operator()(msgpack::object const& o, type::v4raw_ref& v) const {
-        if(o.type != msgpack::type::STR) { throw msgpack::type_error(); }
+        if(o.type != msgpack::type::STR) { THROW msgpack::type_error(); }
         v.ptr  = o.via.str.ptr;
         v.size = o.via.str.size;
         return o;

@@ -47,7 +47,7 @@ namespace adaptor {
 template <typename K, typename V, typename Hash, typename Pred, typename Alloc>
 struct convert<MSGPACK_STD_TR1::unordered_map<K, V, Hash, Pred, Alloc> > {
     msgpack::object const& operator()(msgpack::object const& o, MSGPACK_STD_TR1::unordered_map<K, V, Hash, Pred, Alloc>& v) const {
-        if(o.type != msgpack::type::MAP) { throw msgpack::type_error(); }
+        if(o.type != msgpack::type::MAP) { THROW msgpack::type_error(); }
         msgpack::object_kv* p(o.via.map.ptr);
         msgpack::object_kv* const pend(o.via.map.ptr + o.via.map.size);
         MSGPACK_STD_TR1::unordered_map<K, V, Hash, Pred, Alloc> tmp;
@@ -103,7 +103,7 @@ struct object_with_zone<MSGPACK_STD_TR1::unordered_map<K, V, Hash, Pred, Alloc> 
 template <typename K, typename V, typename Hash, typename Pred, typename Alloc>
 struct convert<MSGPACK_STD_TR1::unordered_multimap<K, V, Hash, Pred, Alloc> > {
     msgpack::object const& operator()(msgpack::object const& o, MSGPACK_STD_TR1::unordered_multimap<K, V, Hash, Pred, Alloc>& v) const {
-        if(o.type != msgpack::type::MAP) { throw msgpack::type_error(); }
+        if(o.type != msgpack::type::MAP) { THROW msgpack::type_error(); }
         msgpack::object_kv* p(o.via.map.ptr);
         msgpack::object_kv* const pend(o.via.map.ptr + o.via.map.size);
         MSGPACK_STD_TR1::unordered_multimap<K, V, Hash, Pred, Alloc> tmp;

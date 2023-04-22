@@ -284,7 +284,7 @@ public:
                 }
                 break;
             default:
-                throw msgpack::type_error();
+                THROW msgpack::type_error();
                 break;
             }
             if (m_ctx.empty()) return;

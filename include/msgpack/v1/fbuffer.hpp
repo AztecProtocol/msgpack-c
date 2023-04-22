@@ -33,7 +33,7 @@ public:
         if (!buf) return;
         if (len == 0) return;
         if (1 != fwrite(buf, len, 1, m_file)) {
-            throw std::runtime_error("fwrite() failed");
+            THROW std::runtime_error("fwrite() failed");
         }
     }
 

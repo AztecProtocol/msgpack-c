@@ -238,7 +238,7 @@ inline void check_ext_size(std::size_t /*size*/) {
 
 template <>
 inline void check_ext_size<4>(std::size_t size) {
-    if (size == 0xffffffff) throw msgpack::ext_size_overflow("ext size overflow");
+    if (size == 0xffffffff) THROW msgpack::ext_size_overflow("ext size overflow");
 }
 
 template <typename VisitorHolder>

@@ -30,9 +30,9 @@ template <typename T>
 struct as<std::complex<T>, typename std::enable_if<msgpack::has_as<T>::value>::type> {
     std::complex<T> operator()(msgpack::object const& o) const {
         if (o.type != msgpack::type::ARRAY)
-            throw msgpack::type_error();
+            THROW msgpack::type_error();
         if (o.via.array.size != 2)
-            throw msgpack::type_error();
+            THROW msgpack::type_error();
         return std::complex<T>(o.via.array.ptr[0].as<T>(), o.via.array.ptr[1].as<T>());
     }
 };
@@ -43,9 +43,9 @@ template <typename T>
 struct convert<std::complex<T> > {
     msgpack::object const& operator()(msgpack::object const& o, std::complex<T>& v) const {
         if(o.type != msgpack::type::ARRAY)
-            throw msgpack::type_error();
+            THROW msgpack::type_error();
         if(o.via.array.size != 2)
-            throw msgpack::type_error();
+            THROW msgpack::type_error();
         T real;
         T imag;
         o.via.array.ptr[0].convert(real);

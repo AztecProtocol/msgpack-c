@@ -137,8 +137,8 @@ Target integral_cast(Source source) {
 template <typename Clock, typename Duration>
 struct as<std::chrono::time_point<Clock, Duration>> {
     typename std::chrono::time_point<Clock, Duration> operator()(msgpack::object const& o) const {
-        if(o.type != msgpack::type::EXT) { throw msgpack::type_error(); }
-        if(o.via.ext.type() != -1) { throw msgpack::type_error(); }
+        if(o.type != msgpack::type::EXT) { THROW msgpack::type_error(); }
+        if(o.via.ext.type() != -1) { THROW msgpack::type_error(); }
         std::chrono::time_point<Clock, Duration> tp;
         switch(o.via.ext.size) {
         case 4: {
@@ -180,7 +180,7 @@ struct as<std::chrono::time_point<Clock, Duration>> {
             }
         } break;
         default:
-            throw msgpack::type_error();
+            THROW msgpack::type_error();
         }
         return tp;
     }
@@ -189,8 +189,8 @@ struct as<std::chrono::time_point<Clock, Duration>> {
 template <typename Clock, typename Duration>
 struct convert<std::chrono::time_point<Clock, Duration>> {
     msgpack::object const& operator()(msgpack::object const& o, std::chrono::time_point<Clock, Duration>& v) const {
-        if(o.type != msgpack::type::EXT) { throw msgpack::type_error(); }
-        if(o.via.ext.type() != -1) { throw msgpack::type_error(); }
+        if(o.type != msgpack::type::EXT) { THROW msgpack::type_error(); }
+        if(o.via.ext.type() != -1) { THROW msgpack::type_error(); }
         std::chrono::time_point<Clock, Duration> tp;
         switch(o.via.ext.size) {
         case 4: {
@@ -236,7 +236,7 @@ struct convert<std::chrono::time_point<Clock, Duration>> {
             v = tp;
         } break;
         default:
-            throw msgpack::type_error();
+            THROW msgpack::type_error();
         }
         return o;
     }

@@ -30,12 +30,13 @@ struct AbortStream {
         std::abort();
     }
 };
-#define throw AbortStream() <<
+#define THROW AbortStream() <<
 #define try if (true)
 #define catch(...) if (false)
-#define RETHROW  
+#define RETHROW 
 #else
-#define RETHROW throw 
+#define THROW throw
+#define RETHROW THROW
 #endif
 
 #endif // MSGPACK_ASSERT_HPP

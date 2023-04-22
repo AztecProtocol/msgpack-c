@@ -30,7 +30,7 @@ namespace adaptor {
 template <>
 struct as<std::wstring> {
     std::wstring operator()(const msgpack::object& o) const {
-        if (o.type != msgpack::type::ARRAY) { throw msgpack::type_error(); }
+        if (o.type != msgpack::type::ARRAY) { THROW msgpack::type_error(); }
         std::wstring v;
         v.reserve(o.via.array.size);
         if (o.via.array.size > 0) {
@@ -50,7 +50,7 @@ struct as<std::wstring> {
 template <>
 struct convert<std::wstring> {
     msgpack::object const& operator()(msgpack::object const& o, std::wstring& v) const {
-        if (o.type != msgpack::type::ARRAY) { throw msgpack::type_error(); }
+        if (o.type != msgpack::type::ARRAY) { THROW msgpack::type_error(); }
         v.resize(o.via.array.size);
         if (o.via.array.size > 0) {
             msgpack::object* p = o.via.array.ptr;
