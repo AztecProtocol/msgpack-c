@@ -470,7 +470,9 @@ struct object_stringize_visitor {
         // <barretenberg> print binary strings in hex
         m_os << "\"BIN(size:" << size << "): 0x";
         for (uint32_t i = 0; i < size; ++i) {
+            std::ios::fmtflags flags(m_os.flags());
             m_os << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(static_cast<unsigned char>(v[i]));
+            m_os.flags(flags);
         }
         m_os << "\"";
         // </barrenteberg>
