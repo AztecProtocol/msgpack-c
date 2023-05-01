@@ -141,7 +141,7 @@
 #   endif
 
 #   if defined(_byteswap_uint64) || (defined(_MSC_VER) && _MSC_VER >= 1400)
-#        define _msgpack_be64(x) (_byteswap_uint64(x))
+#        define _msgpack_be64(x) (_byteswap_uint64((uint64_t)x))
 #   elif defined(bswap_64)
 #        define _msgpack_be64(x) bswap_64(x)
 #   elif defined(__DARWIN_OSSwapInt64)
