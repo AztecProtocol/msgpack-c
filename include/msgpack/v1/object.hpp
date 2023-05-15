@@ -642,7 +642,7 @@ template <typename Stream, typename T>
 struct packer_serializer {
     static msgpack::packer<Stream>& pack(msgpack::packer<Stream>& o, const T& v) {
         // <barretenberg>Note, if this is failing, the associated type probably wants
-        // a MSGPACK(...fields...); macro call </barretenberg>
+        // a MSGPACK_FIELDS(...fields...); macro call </barretenberg>
         v.msgpack_pack(o);
         return o;
     }
