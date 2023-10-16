@@ -120,12 +120,12 @@ template <
 >
 Target integral_cast(Source source) {
     if (would_underflow<Target, Source>(source).value) {
-        throw std::underflow_error{
+        THROW std::underflow_error{
             "casting from Source to Target causes an underflow error"
         };
     }
     if(would_overflow<Target, Source>(source).value) {
-        throw std::overflow_error{
+        THROW std::overflow_error{
             "casting from Source to Target causes an overflow error"
         };
     }

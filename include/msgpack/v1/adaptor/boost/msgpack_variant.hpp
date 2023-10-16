@@ -196,7 +196,7 @@ struct basic_variant :
         if (is_uint64_t()) {
             return static_cast<double>(boost::get<uint64_t>(*this));
         }
-        throw msgpack::type_error();
+        THROW msgpack::type_error();
     }
     std::string const& as_string() const {
         return boost::get<std::string>(*this);
