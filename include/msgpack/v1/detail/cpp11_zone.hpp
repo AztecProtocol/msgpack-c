@@ -147,7 +147,7 @@ public:
 
     static void* operator new(std::size_t size) {
         void* p = ::malloc(size);
-        if (!p) throw std::bad_alloc();
+        if (!p) THROW std::bad_alloc();
         return p;
     }
 
@@ -208,7 +208,7 @@ inline zone::chunk_list& zone::get_chank_lst() {
     if (!m_chunk_list) {
         auto ptr = ::malloc(sizeof(chunk_list) + m_chunk_size);
         if (!ptr)
-            throw std::bad_alloc();
+            THROW std::bad_alloc();
         m_chunk_list = new (ptr) chunk_list(m_chunk_size, reinterpret_cast<char*>(ptr) + sizeof(chunk_list));
     }
     return *m_chunk_list;
@@ -255,7 +255,7 @@ inline char* zone::allocate_expand(size_t size) {
     }
 
     chunk* c = static_cast<chunk*>(::malloc(sizeof(chunk) + sz));
-    if (!c) throw std::bad_alloc();
+    if (!c) THROW std::bad_alloc();
 
     char* ptr = reinterpret_cast<char*>(c) + sizeof(chunk);
 
@@ -314,14 +314,14 @@ T* zone::allocate(Args... args) {
         m_finalizer_array.push(&zone::object_destruct<T>, x);
     } catch (...) {
         undo_allocate(sizeof(T));
-        throw;
+        RETHROW;
     }
     try {
         return new (x) T(args...);
     } catch (...) {
         m_finalizer_array.pop();
         undo_allocate(sizeof(T));
-        throw;
+        RETHROW;
     }
 }
 
