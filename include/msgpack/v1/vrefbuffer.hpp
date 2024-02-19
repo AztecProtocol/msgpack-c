@@ -65,7 +65,7 @@ public:
          m_chunk_size(chunk_size)
     {
         if((sizeof(chunk) + chunk_size) < chunk_size) {
-            throw std::bad_alloc();
+            THROW std::bad_alloc();
         }
 
         size_t nfirst = (sizeof(iovec) < 72/2) ?
@@ -74,7 +74,7 @@ public:
         iovec* array = static_cast<iovec*>(::malloc(
             sizeof(iovec) * nfirst));
         if(!array) {
-            throw std::bad_alloc();
+            THROW std::bad_alloc();
         }
 
         m_tail  = array;
@@ -84,7 +84,7 @@ public:
         chunk* c = static_cast<chunk*>(::malloc(sizeof(chunk) + chunk_size));
         if(!c) {
             ::free(array);
-            throw std::bad_alloc();
+            THROW std::bad_alloc();
         }
         inner_buffer* const ib = &m_inner_buffer;
 
@@ -133,7 +133,7 @@ public:
             iovec* nvec = static_cast<iovec*>(::realloc(
                 m_array, sizeof(iovec)*nnext));
             if(!nvec) {
-                throw std::bad_alloc();
+                THROW std::bad_alloc();
             }
 
             m_array = nvec;
@@ -157,12 +157,12 @@ public:
             }
 
             if(sizeof(chunk) + sz < sz){
-                throw std::bad_alloc();
+                THROW std::bad_alloc();
             }
 
             chunk* c = static_cast<chunk*>(::malloc(sizeof(chunk) + sz));
             if(!c) {
-                throw std::bad_alloc();
+                THROW std::bad_alloc();
             }
 
             c->next = ib->head;
@@ -202,12 +202,12 @@ public:
         size_t sz = m_chunk_size;
 
         if((sizeof(chunk) + sz) < sz){
-            throw std::bad_alloc();
+            THROW std::bad_alloc();
         }
 
         chunk* empty = static_cast<chunk*>(::malloc(sizeof(chunk) + sz));
         if(!empty) {
-            throw std::bad_alloc();
+            THROW std::bad_alloc();
         }
 
         empty->next = MSGPACK_NULLPTR;
@@ -230,7 +230,7 @@ public:
                 to->m_array, sizeof(iovec)*nnext));
             if(!nvec) {
                 ::free(empty);
-                throw std::bad_alloc();
+                THROW std::bad_alloc();
             }
 
             to->m_array = nvec;

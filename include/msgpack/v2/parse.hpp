@@ -229,7 +229,7 @@ inline void check_ext_size(std::size_t /*size*/) {
 
 template <>
 inline void check_ext_size<4>(std::size_t size) {
-    if (size == 0xffffffff) throw msgpack::ext_size_overflow("ext size overflow");
+    if (size == 0xffffffff) THROW msgpack::ext_size_overflow("ext size overflow");
 }
 
 template <typename VisitorHolder>
@@ -793,7 +793,7 @@ inline parser<VisitorHolder, ReferencedBufferHook>::parser(
 
     char* buffer = static_cast<char*>(::malloc(initial_buffer_size));
     if(!buffer) {
-        throw std::bad_alloc();
+        THROW std::bad_alloc();
     }
 
     m_buffer = buffer;
@@ -877,7 +877,7 @@ inline void parser<VisitorHolder, ReferencedBufferHook>::expand_buffer(std::size
 
         char* tmp = static_cast<char*>(::realloc(m_buffer, next_size));
         if(!tmp) {
-            throw std::bad_alloc();
+            THROW std::bad_alloc();
         }
 
         m_buffer = tmp;
@@ -897,7 +897,7 @@ inline void parser<VisitorHolder, ReferencedBufferHook>::expand_buffer(std::size
 
         char* tmp = static_cast<char*>(::malloc(next_size));
         if(!tmp) {
-            throw std::bad_alloc();
+            THROW std::bad_alloc();
         }
 
         detail::init_count(tmp);
@@ -910,7 +910,7 @@ inline void parser<VisitorHolder, ReferencedBufferHook>::expand_buffer(std::size
             }
             catch (...) {
                 ::free(tmp);
-                throw;
+                RETHROW;
             }
             static_cast<VisitorHolder&>(*this).set_referenced(false);
         } else {

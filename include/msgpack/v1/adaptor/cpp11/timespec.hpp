@@ -28,8 +28,8 @@ namespace adaptor {
 template <>
 struct convert<timespec> {
     msgpack::object const& operator()(msgpack::object const& o, timespec& v) const {
-        if(o.type != msgpack::type::EXT) { throw msgpack::type_error(); }
-        if(o.via.ext.type() != -1) { throw msgpack::type_error(); }
+        if(o.type != msgpack::type::EXT) { THROW msgpack::type_error(); }
+        if(o.via.ext.type() != -1) { THROW msgpack::type_error(); }
         switch(o.via.ext.size) {
         case 4: {
             uint32_t sec;
@@ -52,7 +52,7 @@ struct convert<timespec> {
             v.tv_nsec = static_cast<decltype(v.tv_nsec)>(nanosec);
         } break;
         default:
-            throw msgpack::type_error();
+            THROW msgpack::type_error();
         }
         return o;
     }

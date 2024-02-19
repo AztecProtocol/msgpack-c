@@ -196,7 +196,7 @@ struct basic_variant :
         if (is_uint64_t()) {
             return static_cast<double>(boost::get<uint64_t>(*this));
         }
-        throw msgpack::type_error();
+        THROW msgpack::type_error();
     }
     std::string const& as_string() const {
         return boost::get<std::string>(*this);
@@ -403,7 +403,7 @@ struct object_imp : boost::static_visitor<void> {
     }
     template <typename T>
     void operator()(T const&) const {
-        throw msgpack::type_error();
+        THROW msgpack::type_error();
     }
     object_imp(msgpack::object& o):o_(o) {}
     msgpack::object& o_;

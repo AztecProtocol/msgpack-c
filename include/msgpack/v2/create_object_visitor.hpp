@@ -108,7 +108,7 @@ public:
     }
     bool visit_str(const char* v, uint32_t size) {
         MSGPACK_ASSERT(v || size == 0);
-        if (size > m_limit.str()) throw msgpack::str_size_overflow("str size overflow");
+        if (size > m_limit.str()) THROW msgpack::str_size_overflow("str size overflow");
         msgpack::object* obj = m_stack.back();
         obj->type = msgpack::type::STR;
         if (m_func && m_func(obj->type, size, m_user_data)) {
@@ -132,7 +132,7 @@ public:
     }
     bool visit_bin(const char* v, uint32_t size) {
         MSGPACK_ASSERT(v || size == 0);
-        if (size > m_limit.bin()) throw msgpack::bin_size_overflow("bin size overflow");
+        if (size > m_limit.bin()) THROW msgpack::bin_size_overflow("bin size overflow");
         msgpack::object* obj = m_stack.back();
         obj->type = msgpack::type::BIN;
         if (m_func && m_func(obj->type, size, m_user_data)) {
@@ -156,7 +156,7 @@ public:
     }
     bool visit_ext(const char* v, uint32_t size) {
         MSGPACK_ASSERT(v || size == 0);
-        if (size > m_limit.ext()) throw msgpack::ext_size_overflow("ext size overflow");
+        if (size > m_limit.ext()) THROW msgpack::ext_size_overflow("ext size overflow");
         msgpack::object* obj = m_stack.back();
         obj->type = msgpack::type::EXT;
         if (m_func && m_func(obj->type, size, m_user_data)) {
@@ -179,8 +179,8 @@ public:
         return true;
     }
     bool start_array(uint32_t num_elements) {
-        if (num_elements > m_limit.array()) throw msgpack::array_size_overflow("array size overflow");
-        if (m_stack.size() > m_limit.depth()) throw msgpack::depth_size_overflow("depth size overflow");
+        if (num_elements > m_limit.array()) THROW msgpack::array_size_overflow("array size overflow");
+        if (m_stack.size() > m_limit.depth()) THROW msgpack::depth_size_overflow("depth size overflow");
         msgpack::object* obj = m_stack.back();
         obj->type = msgpack::type::ARRAY;
         obj->via.array.size = num_elements;
@@ -191,7 +191,7 @@ public:
 
 #if SIZE_MAX == UINT_MAX
             if (num_elements > SIZE_MAX/sizeof(msgpack::object))
-                throw msgpack::array_size_overflow("array size overflow");
+                THROW msgpack::array_size_overflow("array size overflow");
 #endif // SIZE_MAX == UINT_MAX
 
             size_t size = num_elements*sizeof(msgpack::object);
@@ -213,8 +213,8 @@ public:
         return true;
     }
     bool start_map(uint32_t num_kv_pairs) {
-        if (num_kv_pairs > m_limit.map()) throw msgpack::map_size_overflow("map size overflow");
-        if (m_stack.size() > m_limit.depth()) throw msgpack::depth_size_overflow("depth size overflow");
+        if (num_kv_pairs > m_limit.map()) THROW msgpack::map_size_overflow("map size overflow");
+        if (m_stack.size() > m_limit.depth()) THROW msgpack::depth_size_overflow("depth size overflow");
         msgpack::object* obj = m_stack.back();
         obj->type = msgpack::type::MAP;
         obj->via.map.size = num_kv_pairs;
@@ -225,7 +225,7 @@ public:
 
 #if SIZE_MAX == UINT_MAX
             if (num_kv_pairs > SIZE_MAX/sizeof(msgpack::object_kv))
-                throw msgpack::map_size_overflow("map size overflow");
+                THROW msgpack::map_size_overflow("map size overflow");
 #endif // SIZE_MAX == UINT_MAX
             size_t size = num_kv_pairs*sizeof(msgpack::object_kv);
             obj->via.map.ptr =
@@ -253,10 +253,10 @@ public:
         return true;
     }
     void parse_error(size_t /*parsed_offset*/, size_t /*error_offset*/) {
-        throw msgpack::parse_error("parse error");
+        THROW msgpack::parse_error("parse error");
     }
     void insufficient_bytes(size_t /*parsed_offset*/, size_t /*error_offset*/) {
-        throw msgpack::insufficient_bytes("insufficient bytes");
+        THROW msgpack::insufficient_bytes("insufficient bytes");
     }
 private:
 public:

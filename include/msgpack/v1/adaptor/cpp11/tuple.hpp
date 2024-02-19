@@ -10,6 +10,7 @@
 #ifndef MSGPACK_V1_TYPE_CPP11_TUPLE_HPP
 #define MSGPACK_V1_TYPE_CPP11_TUPLE_HPP
 
+#include "msgpack/v3/unpack_decl.hpp"
 #include "msgpack/versioning.hpp"
 #include "msgpack/adaptor/adaptor_base.hpp"
 #include "msgpack/object.hpp"
@@ -113,7 +114,12 @@ template <typename... Args>
 struct as<std::tuple<Args...>, typename std::enable_if<msgpack::any_of<msgpack::has_as, Args...>::value>::type>  {
     std::tuple<Args...> operator()(
         msgpack::object const& o) const {
-        if (o.type != msgpack::type::ARRAY) { throw msgpack::type_error(); }
+        if (o.type != msgpack::type::ARRAY) { THROW msgpack::type_error(); }
+        // <barretenberg>
+        if (o.via.array.size != sizeof...(Args)) {
+            THROW msgpack::unpack_error(std::string("tuple array not right size, got ") + std::to_string(o.via.array.size) + " but expected " + std::to_string(sizeof...(Args)));
+        }
+        // </barretenberg>
         return StdTupleAs<Args...>::as(o);
     }
 };
@@ -123,7 +129,7 @@ struct convert<std::tuple<Args...>> {
     msgpack::object const& operator()(
         msgpack::object const& o,
         std::tuple<Args...>& v) const {
-        if(o.type != msgpack::type::ARRAY) { throw msgpack::type_error(); }
+        if(o.type != msgpack::type::ARRAY) { THROW msgpack::type_error(); }
         StdTupleConverter<decltype(v), sizeof...(Args)>::convert(o, v);
         return o;
     }

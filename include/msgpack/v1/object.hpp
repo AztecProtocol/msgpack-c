@@ -284,7 +284,7 @@ public:
                 }
                 break;
             default:
-                throw msgpack::type_error();
+                THROW msgpack::type_error();
                 break;
             }
             if (m_ctx.empty()) return;
@@ -466,8 +466,16 @@ struct object_stringize_visitor {
         m_os << '"';
         return true;
     }
-    bool visit_bin(const char* /*v*/, uint32_t size) {
-        m_os << "\"BIN(size:" << size << ")\"";
+    bool visit_bin(const char* v, uint32_t size) {
+        // <barretenberg> print binary strings in hex
+        m_os << "\"BIN(size:" << size << "): 0x";
+        for (uint32_t i = 0; i < size; ++i) {
+            std::ios::fmtflags flags(m_os.flags());
+            m_os << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(static_cast<unsigned char>(v[i]));
+            m_os.flags(flags);
+        }
+        m_os << "\"";
+        // </barrenteberg>
         return true;
     }
     bool visit_ext(const char* v, uint32_t size) {
@@ -633,6 +641,8 @@ namespace detail {
 template <typename Stream, typename T>
 struct packer_serializer {
     static msgpack::packer<Stream>& pack(msgpack::packer<Stream>& o, const T& v) {
+        // <barretenberg>Note, if this is failing, the associated type probably wants
+        // a MSGPACK_FIELDS(...fields...); macro call </barretenberg>
         v.msgpack_pack(o);
         return o;
     }
@@ -1040,10 +1050,12 @@ inline bool operator==(const msgpack::object& x, const msgpack::object& y)
 
 template <typename T>
 inline bool operator==(const msgpack::object& x, const T& y)
+{
 try {
     return x == msgpack::object(y);
 } catch (msgpack::type_error&) {
     return false;
+}
 }
 
 inline bool operator!=(const msgpack::object& x, const msgpack::object& y)

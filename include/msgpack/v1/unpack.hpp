@@ -23,7 +23,7 @@
 #include <memory>
 
 
-#if !defined(MSGPACK_USE_CPP03)
+#if !defined(MSGPACK_USE_CPP03) && !defined(__wasm__)
 #include <atomic>
 #endif
 
@@ -111,13 +111,13 @@ inline void unpack_false(msgpack::object& o)
 
 struct unpack_array {
     void operator()(unpack_user& u, uint32_t n, msgpack::object& o) const {
-        if (n > u.limit().array()) throw msgpack::array_size_overflow("array size overflow");
+        if (n > u.limit().array()) THROW msgpack::array_size_overflow("array size overflow");
         o.type = msgpack::type::ARRAY;
         o.via.array.size = 0;
 
 #if SIZE_MAX == UINT_MAX
         if (n > SIZE_MAX/sizeof(msgpack::object))
-            throw msgpack::array_size_overflow("array size overflow");
+            THROW msgpack::array_size_overflow("array size overflow");
 #endif // SIZE_MAX == UINT_MAX
 
         size_t size = n*sizeof(msgpack::object);
@@ -137,13 +137,13 @@ inline void unpack_array_item(msgpack::object& c, msgpack::object const& o)
 
 struct unpack_map {
     void operator()(unpack_user& u, uint32_t n, msgpack::object& o) const {
-        if (n > u.limit().map()) throw msgpack::map_size_overflow("map size overflow");
+        if (n > u.limit().map()) THROW msgpack::map_size_overflow("map size overflow");
         o.type = msgpack::type::MAP;
         o.via.map.size = 0;
 
 #if SIZE_MAX == UINT_MAX
         if (n > SIZE_MAX/sizeof(msgpack::object_kv))
-            throw msgpack::map_size_overflow("map size overflow");
+            THROW msgpack::map_size_overflow("map size overflow");
 #endif // SIZE_MAX == UINT_MAX
 
         size_t size = n*sizeof(msgpack::object_kv);
@@ -171,7 +171,7 @@ inline void unpack_str(unpack_user& u, const char* p, uint32_t l, msgpack::objec
         u.set_referenced(true);
     }
     else if (l > 0) {
-        if (l > u.limit().str()) throw msgpack::str_size_overflow("str size overflow");
+        if (l > u.limit().str()) THROW msgpack::str_size_overflow("str size overflow");
         char* tmp = static_cast<char*>(u.zone().allocate_align(l, MSGPACK_ZONE_ALIGNOF(char)));
         std::memcpy(tmp, p, l);
         o.via.str.ptr = tmp;
@@ -190,7 +190,7 @@ inline void unpack_bin(unpack_user& u, const char* p, uint32_t l, msgpack::objec
         u.set_referenced(true);
     }
     else if (l > 0) {
-        if (l > u.limit().bin()) throw msgpack::bin_size_overflow("bin size overflow");
+        if (l > u.limit().bin()) THROW msgpack::bin_size_overflow("bin size overflow");
         char* tmp = static_cast<char*>(u.zone().allocate_align(l, MSGPACK_ZONE_ALIGNOF(char)));
         std::memcpy(tmp, p, l);
         o.via.bin.ptr = tmp;
@@ -209,7 +209,7 @@ inline void unpack_ext(unpack_user& u, const char* p, std::size_t l, msgpack::ob
         u.set_referenced(true);
     }
     else {
-        if (l > u.limit().ext()) throw msgpack::ext_size_overflow("ext size overflow");
+        if (l > u.limit().ext()) THROW msgpack::ext_size_overflow("ext size overflow");
         char* tmp = static_cast<char*>(u.zone().allocate_align(l, MSGPACK_ZONE_ALIGNOF(char)));
         std::memcpy(tmp, p, l);
         o.via.ext.ptr = tmp;
@@ -239,46 +239,46 @@ private:
 
 inline void init_count(void* buffer)
 {
-#if defined(MSGPACK_USE_CPP03)
+#if defined(MSGPACK_USE_CPP03) || defined(__wasm__)
     *reinterpret_cast<volatile _msgpack_atomic_counter_t*>(buffer) = 1;
-#else  // defined(MSGPACK_USE_CPP03)
+#else  // defined(MSGPACK_USE_CPP03) || defined(__wasm__)
     new (buffer) std::atomic<unsigned int>(1);
-#endif // defined(MSGPACK_USE_CPP03)
+#endif // defined(MSGPACK_USE_CPP03) || defined(__wasm__)
 }
 
 inline void decr_count(void* buffer)
 {
-#if defined(MSGPACK_USE_CPP03)
+#if defined(MSGPACK_USE_CPP03) || defined(__wasm__)
     if(_msgpack_sync_decr_and_fetch(reinterpret_cast<volatile _msgpack_atomic_counter_t*>(buffer)) == 0) {
         free(buffer);
     }
-#else  // defined(MSGPACK_USE_CPP03)
+#else  // defined(MSGPACK_USE_CPP03) || defined(__wasm__)
     if (--*reinterpret_cast<std::atomic<unsigned int>*>(buffer) == 0) {
         free(buffer);
     }
-#endif // defined(MSGPACK_USE_CPP03)
+#endif // defined(MSGPACK_USE_CPP03) || defined(__wasm__)
 }
 
 inline void incr_count(void* buffer)
 {
-#if defined(MSGPACK_USE_CPP03)
+#if defined(MSGPACK_USE_CPP03) || defined(__wasm__)
     _msgpack_sync_incr_and_fetch(reinterpret_cast<volatile _msgpack_atomic_counter_t*>(buffer));
-#else  // defined(MSGPACK_USE_CPP03)
+#else  // defined(MSGPACK_USE_CPP03) || defined(__wasm__)
     ++*reinterpret_cast<std::atomic<unsigned int>*>(buffer);
-#endif // defined(MSGPACK_USE_CPP03)
+#endif // defined(MSGPACK_USE_CPP03) || defined(__wasm__)
 }
 
-#if defined(MSGPACK_USE_CPP03)
+#if defined(MSGPACK_USE_CPP03) || defined(__wasm__)
 inline _msgpack_atomic_counter_t get_count(void* buffer)
 {
     return *reinterpret_cast<volatile _msgpack_atomic_counter_t*>(buffer);
 }
-#else  // defined(MSGPACK_USE_CPP03)
+#else  // defined(MSGPACK_USE_CPP03) || defined(__wasm__)
 inline std::atomic<unsigned int> const& get_count(void* buffer)
 {
     return *reinterpret_cast<std::atomic<unsigned int>*>(buffer);
 }
-#endif // defined(MSGPACK_USE_CPP03)
+#endif // defined(MSGPACK_USE_CPP03) || defined(__wasm__)
 
 template <typename T>
 struct value {
@@ -377,7 +377,7 @@ private:
                 m_stack.push_back(unpack_stack());
             }
             else {
-                throw msgpack::depth_size_overflow("depth size overflow");
+                THROW msgpack::depth_size_overflow("depth size overflow");
             }
             m_cs = MSGPACK_CS_HEADER;
             ++m_current;
@@ -460,7 +460,7 @@ private:
 
 template <>
 inline void context::check_ext_size<4>(std::size_t size) {
-    if (size == 0xffffffff) throw msgpack::ext_size_overflow("ext size overflow");
+    if (size == 0xffffffff) THROW msgpack::ext_size_overflow("ext size overflow");
 }
 
 inline int context::execute(const char* data, std::size_t len, std::size_t& off)
@@ -873,10 +873,10 @@ public:
              std::size_t initial_buffer_size = MSGPACK_UNPACKER_INIT_BUFFER_SIZE,
              unpack_limit const& limit = unpack_limit());
 
-#if !defined(MSGPACK_USE_CPP03)
+#if !defined(MSGPACK_USE_CPP03) && !defined(__wasm__)
     unpacker(unpacker&& other);
     unpacker& operator=(unpacker&& other);
-#endif // !defined(MSGPACK_USE_CPP03)
+#endif // !defined(MSGPACK_USE_CPP03) && !defined(__wasm__)
 
     ~unpacker();
 
@@ -1049,14 +1049,14 @@ private:
     std::size_t m_initial_buffer_size;
     detail::context m_ctx;
 
-#if defined(MSGPACK_USE_CPP03)
+#if defined(MSGPACK_USE_CPP03) || defined(__wasm__)
 private:
     unpacker(const unpacker&);
     unpacker& operator=(const unpacker&);
-#else  // defined(MSGPACK_USE_CPP03)
+#else  // defined(MSGPACK_USE_CPP03) || defined(__wasm__)
     unpacker(const unpacker&) = delete;
     unpacker& operator=(const unpacker&) = delete;
-#endif // defined(MSGPACK_USE_CPP03)
+#endif // defined(MSGPACK_USE_CPP03) || defined(__wasm__)
 };
 
 inline unpacker::unpacker(unpack_reference_func f,
@@ -1071,7 +1071,7 @@ inline unpacker::unpacker(unpack_reference_func f,
 
     char* buffer = static_cast<char*>(::malloc(initial_buffer_size));
     if(!buffer) {
-        throw std::bad_alloc();
+        THROW std::bad_alloc();
     }
 
     m_buffer = buffer;
@@ -1088,7 +1088,7 @@ inline unpacker::unpacker(unpack_reference_func f,
     m_ctx.user().set_referenced(false);
 }
 
-#if !defined(MSGPACK_USE_CPP03)
+#if !defined(MSGPACK_USE_CPP03) && !defined(__wasm__)
 // Move constructor and move assignment operator
 
 inline unpacker::unpacker(unpacker&& other)
@@ -1109,7 +1109,7 @@ inline unpacker& unpacker::operator=(unpacker&& other) {
     return *this;
 }
 
-#endif // !defined(MSGPACK_USE_CPP03)
+#endif // !defined(MSGPACK_USE_CPP03) && !defined(__wasm__)
 
 
 inline unpacker::~unpacker()
@@ -1150,7 +1150,7 @@ inline void unpacker::expand_buffer(std::size_t size)
 
         char* tmp = static_cast<char*>(::realloc(m_buffer, next_size));
         if(!tmp) {
-            throw std::bad_alloc();
+            THROW std::bad_alloc();
         }
 
         m_buffer = tmp;
@@ -1170,7 +1170,7 @@ inline void unpacker::expand_buffer(std::size_t size)
 
         char* tmp = static_cast<char*>(::malloc(next_size));
         if(!tmp) {
-            throw std::bad_alloc();
+            THROW std::bad_alloc();
         }
 
         detail::init_count(tmp);
@@ -1183,7 +1183,7 @@ inline void unpacker::expand_buffer(std::size_t size)
             }
             catch (...) {
                 ::free(tmp);
-                throw;
+                RETHROW;
             }
             m_ctx.user().set_referenced(false);
         } else {
@@ -1218,7 +1218,7 @@ inline bool unpacker::next(msgpack::object_handle& result, bool& referenced)
     referenced = false;
     int ret = execute_imp();
     if(ret < 0) {
-        throw msgpack::parse_error("parse error");
+        THROW msgpack::parse_error("parse error");
     }
 
     if(ret == 0) {
@@ -1251,7 +1251,7 @@ inline bool unpacker::execute()
 {
     int ret = execute_imp();
     if(ret < 0) {
-        throw msgpack::parse_error("parse error");
+        THROW msgpack::parse_error("parse error");
     } else if(ret == 0) {
         return false;
     } else {
@@ -1414,10 +1414,10 @@ inline msgpack::object_handle unpack(
         off = noff;
         return msgpack::object_handle(obj, msgpack::move(z));
     case PARSE_CONTINUE:
-        throw msgpack::insufficient_bytes("insufficient bytes");
+        THROW msgpack::insufficient_bytes("insufficient bytes");
     case PARSE_PARSE_ERROR:
     default:
-        throw msgpack::parse_error("parse error");
+        THROW msgpack::parse_error("parse error");
     }
     return msgpack::object_handle();
 }
@@ -1475,10 +1475,10 @@ inline void unpack(
         result.zone() = msgpack::move(z);
         return;
     case PARSE_CONTINUE:
-        throw msgpack::insufficient_bytes("insufficient bytes");
+        THROW msgpack::insufficient_bytes("insufficient bytes");
     case PARSE_PARSE_ERROR:
     default:
-        throw msgpack::parse_error("parse error");
+        THROW msgpack::parse_error("parse error");
     }
 }
 
@@ -1534,10 +1534,10 @@ inline msgpack::object unpack(
         off = noff;
         return obj;
     case PARSE_CONTINUE:
-        throw msgpack::insufficient_bytes("insufficient bytes");
+        THROW msgpack::insufficient_bytes("insufficient bytes");
     case PARSE_PARSE_ERROR:
     default:
-        throw msgpack::parse_error("parse error");
+        THROW msgpack::parse_error("parse error");
     }
     return obj;
 }

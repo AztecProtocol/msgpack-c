@@ -29,14 +29,14 @@ struct convert_integer_sign<T, true> {
     static T convert(msgpack::object const& o) {
         if(o.type == msgpack::type::POSITIVE_INTEGER) {
             if(o.via.u64 > static_cast<uint64_t>(std::numeric_limits<T>::max()))
-            { throw msgpack::type_error(); }
+            { THROW msgpack::type_error(); }
             return static_cast<T>(o.via.u64);
         } else if(o.type == msgpack::type::NEGATIVE_INTEGER) {
             if(o.via.i64 < static_cast<int64_t>(std::numeric_limits<T>::min()))
-            { throw msgpack::type_error(); }
+            { THROW msgpack::type_error(); }
             return static_cast<T>(o.via.i64);
         }
-        throw msgpack::type_error();
+        THROW msgpack::type_error();
     }
 };
 
@@ -45,10 +45,10 @@ struct convert_integer_sign<T, false> {
     static T convert(msgpack::object const& o) {
         if(o.type == msgpack::type::POSITIVE_INTEGER) {
             if(o.via.u64 > static_cast<uint64_t>(std::numeric_limits<T>::max()))
-            { throw msgpack::type_error(); }
+            { THROW msgpack::type_error(); }
             return static_cast<T>(o.via.u64);
         }
-        throw msgpack::type_error();
+        THROW msgpack::type_error();
     }
 };
 

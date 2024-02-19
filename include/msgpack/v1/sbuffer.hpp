@@ -32,7 +32,7 @@ public:
         } else {
             m_data = (char*)::malloc(initsz);
             if(!m_data) {
-                throw std::bad_alloc();
+                THROW std::bad_alloc();
             }
         }
     }
@@ -127,7 +127,7 @@ private:
 
         void* tmp = ::realloc(m_data, nsize);
         if(!tmp) {
-            throw std::bad_alloc();
+            THROW std::bad_alloc();
         }
 
         m_data = static_cast<char*>(tmp);

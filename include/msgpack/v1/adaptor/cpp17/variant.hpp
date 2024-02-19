@@ -76,7 +76,7 @@ struct as<std::variant<Ts...>, typename std::enable_if<(msgpack::has_as<Ts>::val
            || o.via.array.size != 2
            || o.via.array.ptr[0].type != msgpack::type::POSITIVE_INTEGER
            || o.via.array.ptr[0].via.u64 >= sizeof...(Ts)) {
-            throw msgpack::type_error{};
+            THROW msgpack::type_error{};
         }
 
         return detail::construct_variant<std::variant<Ts...>, Ts...>(
@@ -94,7 +94,7 @@ struct convert<std::variant<Ts...>> {
            || o.via.array.size != 2
            || o.via.array.ptr[0].type != msgpack::type::POSITIVE_INTEGER
            || o.via.array.ptr[0].via.u64 >= sizeof...(Ts)) {
-            throw msgpack::type_error{};
+            THROW msgpack::type_error{};
         }
 
         v =  detail::construct_variant<std::variant<Ts...>, Ts...>(
