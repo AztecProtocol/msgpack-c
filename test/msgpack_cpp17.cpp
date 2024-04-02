@@ -474,6 +474,28 @@ BOOST_AUTO_TEST_CASE(variant_pack_unpack_as) {
         oh.get().as<std::variant<bool, int, float, double> >();
     BOOST_CHECK(val1 == val2);
     BOOST_CHECK_THROW((oh.get().as<std::variant<bool>>()), msgpack::type_error);
+
+    {
+      std::stringstream same_ss;
+      std::variant<int, float, int> same_expected{std::in_place_index<2>, 2};
+      msgpack::pack(same_ss, same_expected);
+      std::string const& same_str = same_ss.str();
+      msgpack::object_handle same_oh =
+          msgpack::unpack(same_str.data(), same_str.size());
+      std::variant<int, float, int> same_actual = same_oh->as<std::variant<int, float, int>>();
+      BOOST_CHECK(same_expected == same_actual);
+    }
+
+    {
+      std::stringstream same_ss;
+      std::variant<int, int> same_expected{std::in_place_index<1>, 2};
+      msgpack::pack(same_ss, same_expected);
+      std::string const& same_str = same_ss.str();
+      msgpack::object_handle same_oh =
+          msgpack::unpack(same_str.data(), same_str.size());
+      std::variant<int, int> same_actual = same_oh->as<std::variant<int, int>>();
+      BOOST_CHECK(same_expected == same_actual);
+    }
 }
 
 BOOST_AUTO_TEST_CASE(variant_with_zone) {
