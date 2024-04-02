@@ -1,3 +1,8 @@
+# 2024-04-02 version 6.1.1
+  * Fix compilation error when std::variant has the same types (#1112)
+  * Improve CI (#1090, #1110)
+  * Fix to avoid common function name's (has_as::check) ambiguity/conflict with other libraries' macros  (#1085)
+
 # 2023-07-08 version 6.1.0
   * Remove dependency on boost in chrono.hpp (#1076)
   * Add support for std::variant behavior (#1075)
