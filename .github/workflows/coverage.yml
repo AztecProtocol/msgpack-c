@@ -27,7 +27,7 @@ jobs:
       uses: actions/cache@v1
       with:
         path: ~/boost-prefix/
-        key: ${{ runner.os }}-boost-64-1-76-0-2021-08-09
+        key: ${{ runner.os }}-boost-1-85-0-2024-05-27
 
     - name: Build boost
       if: steps.cache-boost.outputs.cache-hit != 'true'
