@@ -49,9 +49,9 @@ while getopts "b:t:p:" c; do
 done
 
 mkdir $prefix || exit 1
-wget https://boostorg.jfrog.io/artifactory/main/release/1.76.0/source/boost_1_76_0.tar.bz2 || exit 1
-tar xf boost_1_76_0.tar.bz2 || exit 1
-cd boost_1_76_0
+wget https://boostorg.jfrog.io/artifactory/main/release/1.85.0/source/boost_1_85_0.tar.bz2 || exit 1
+tar xf boost_1_85_0.tar.bz2 || exit 1
+cd boost_1_85_0
 ./bootstrap.sh || exit 1
 
 build()

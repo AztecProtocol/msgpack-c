@@ -18,14 +18,18 @@ jobs:
       matrix:
         pattern: [0, 1, 2, 3, 4]
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Install Dependencies
+        brew update
+        brew install --force llvm
 
     - name: Cache boost
       id: cache-boost
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: ~/boost-prefix/
-        key: ${{ runner.os }}-boost-1-76-0-2022-08-09
+        key: ${{ runner.os }}-boost-1-85-0-2024-05-27
 
     - name: Build boost
       if: steps.cache-boost.outputs.cache-hit != 'true'
@@ -33,7 +37,7 @@ jobs:
 
     - name: Cache zlib
       id: cache-zlib
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: ~/zlib-prefix/
         key: ${{ runner.os }}-zlib-1-2-13-2022-11-02
@@ -85,7 +89,7 @@ jobs:
       matrix:
         pattern: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: Install build dependencies
       shell: bash
@@ -97,10 +101,10 @@ jobs:
 
     - name: Cache boost
       id: cache-boost
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: ~/boost-prefix/
-        key: ${{ runner.os }}-boost-1-76-0-2021-08-09
+        key: ${{ runner.os }}-boost-1-85-0-2024-05-27
 
     - name: Build boost
       if: steps.cache-boost.outputs.cache-hit != 'true'
@@ -108,7 +112,7 @@ jobs:
 
     - name: Cache zlib
       id: cache-zlib
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: ~/zlib-prefix/
         key: ${{ runner.os }}-zlib-1-2-13-2022-11-02
@@ -198,11 +202,11 @@ jobs:
         cxx: [14, 17, 20]
         pp_flag: ["/Zc:preprocessor-", "/Zc:preprocessor"]
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: Cache vcpkg dependencies
       id: cache-vcpkg
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: C:/vcpkg/installed/x64-windows
         key: ${{ runner.os }}-vcpkg-2021-08-09
