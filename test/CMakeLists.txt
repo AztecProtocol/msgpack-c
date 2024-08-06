@@ -8,7 +8,6 @@ LIST (APPEND check_PROGRAMS
     boost_optional.cpp
     boost_string_ref.cpp
     boost_string_view.cpp
-    boost_variant.cpp
     buffer.cpp
     carray.cpp
     cases.cpp
@@ -43,6 +42,7 @@ ENDIF ()
 
 IF (MSGPACK_CXX11 OR MSGPACK_CXX14 OR MSGPACK_CXX17 OR MSGPACK_CXX20)
     LIST (APPEND check_PROGRAMS
+        boost_variant.cpp
         iterator_cpp11.cpp
         msgpack_cpp11.cpp
         reference_cpp11.cpp

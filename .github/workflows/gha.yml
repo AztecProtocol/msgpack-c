@@ -21,6 +21,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
     - name: Install Dependencies
+      run: |
         brew update
         brew install --force llvm
 
@@ -59,7 +60,7 @@ jobs:
 
         case ${{ matrix.pattern }} in
           0)
-            export MSGPACK_CXX_VERSION="MSGPACK_CXX11=OFF"
+            export MSGPACK_CXX_VERSION="MSGPACK_CXX11=ON"
             ;;
           1)
             export API_VERSION=1
@@ -136,7 +137,7 @@ jobs:
         case ${{ matrix.pattern }} in
           0)
             export CXX="clang++-10"
-            export MSGPACK_CXX_VERSION="MSGPACK_CXX11=OFF"
+            export MSGPACK_CXX_VERSION="MSGPACK_CXX11=ON"
             ;;
           1)
             export CXX="g++-10"

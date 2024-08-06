@@ -73,7 +73,11 @@
 
 #if !defined(MSGPACK_NO_BOOST)
 #include "adaptor/boost/fusion.hpp"
+
+#if !defined(MSGPACK_USE_CPP03)
 #include "adaptor/boost/msgpack_variant.hpp"
+#endif // !defined(MSGPACK_USE_CPP03)
+
 #include "adaptor/boost/optional.hpp"
 #include "adaptor/boost/string_ref.hpp"
 #include "adaptor/boost/string_view.hpp"
