@@ -1,5 +1,5 @@
 # 2024-11-02 version 7.0.0
-  * Refine build system (#1133(
+  * Refine build system (#1133)
   * Refine CI (#1122)
   * Refine documents (#1117)
 ## << breaking changes >>
