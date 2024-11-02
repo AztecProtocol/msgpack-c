@@ -1,3 +1,13 @@
+# 2024-11-02 version 7.0.0
+  * Refine build system (#1133(
+  * Refine CI (#1122)
+  * Refine documents (#1117)
+## << breaking changes >>
+  * Revert double and fload packing behavior (#1144)
+    * If below decimal point is zero (e.g. 2.00),
+      * Before: pack as int format family    `0x02`
+      * After : pack as float format family  `0xcb 0x40 0x00 0x00 0x00 0x00 0x00 0x00 0x00`
+
 # 2024-04-02 version 6.1.1
   * Fix compilation error when std::variant has the same types (#1112)
   * Improve CI (#1090, #1110)
