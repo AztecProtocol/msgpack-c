@@ -63,12 +63,15 @@ jobs:
         cmake --build build --target all || exit 1
         ctest --test-dir build || exit 1
 
-    - name: Upload coverage to Codecov
+    - name: Generate coverage
       working-directory: build
       run: |
         # Create lcov report
-        lcov --capture --directory . --output-file coverage.info
+        lcov --capture --directory . --output-file coverage.info --ignore-errors mismatch
         lcov --remove coverage.info '/usr/*' --output-file coverage.info # filter system-files
         lcov --list coverage.info # debug info
-        # Uploading report to CodeCov
-        bash <(curl -s https://codecov.io/bash) -f coverage.info || echo "Codecov did not collect coverage reports"
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        files: build/coverage.info
+        token: ${{ secrets.CODECOV_TOKEN }}
