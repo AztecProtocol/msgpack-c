@@ -31,6 +31,6 @@ ignore:
   - "erb"
   - "ci"
   - "cmake"
-  - "examle"
+  - "example"
   - "external"
   - "usr"
