@@ -2,7 +2,7 @@
 ===================
 
 Version 7.0.0 [![Build Status](https://github.com/msgpack/msgpack-c/workflows/CI/badge.svg?branch=cpp_master)](https://github.com/msgpack/msgpack-c/actions) [![Build status](https://ci.appveyor.com/api/projects/status/8kstcgt79qj123mw/branch/cpp_master?svg=true)](https://ci.appveyor.com/project/redboltz/msgpack-c/branch/cpp_master)
-[![codecov](https://codecov.io/gh/msgpack/msgpack-c/branch/cpp_master/graph/badge.svg)](https://codecov.io/gh/msgpack/msgpack-c/branch/cpp_master)
+[![codecov](https://codecov.io/gh/msgpack/msgpack-c/branch/cpp_master/graph/badge.svg)](https://app.codecov.io/gh/msgpack/msgpack-c/tree/cpp_master)
 
 It's like JSON but smaller and faster.
 

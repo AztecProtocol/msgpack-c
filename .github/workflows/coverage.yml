@@ -71,7 +71,7 @@ jobs:
         lcov --remove coverage.info '/usr/*' --output-file coverage.info # filter system-files
         lcov --list coverage.info # debug info
     - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v3
+      uses: codecov/codecov-action@v5
       with:
         files: build/coverage.info
         token: ${{ secrets.CODECOV_TOKEN }}
