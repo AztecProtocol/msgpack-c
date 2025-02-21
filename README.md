@@ -87,7 +87,6 @@ For C++ compiler
 clang++ -DMSGPACK_NO_BOOST your_code.cpp
 ```
 
-
 Usage
 -----
 
@@ -96,7 +95,7 @@ Usage
 
   ```cmake
   # ...
-  find_package(msgpack REQUIRED)
+  find_package(msgpack-cxx REQUIRED)
   # ...
   target_link_libraries(your_target_name <PRIVATE/PUBLIC/INTERFACE> msgpack-cxx)
   # ...
