@@ -51,15 +51,29 @@ template <typename T, typename Alloc>
 struct convert<std::vector<T, Alloc> > {
     msgpack::object const& operator()(msgpack::object const& o, std::vector<T, Alloc>& v) const {
         if (o.type != msgpack::type::ARRAY) { THROW msgpack::type_error(); }
-        v.resize(o.via.array.size);
+        bool target_size = v.size();
+        // On one occasion resizing an empty vector caused it to overwrite
+        // the object array itself with NIL objects, so now we try to use
+        // reserve, and only resize down.
+        if (target_size <= o.via.array.size) {
+            v.reserve(o.via.array.size);
+        } else {
+            v.resize(o.via.array.size);
+        }
         if (o.via.array.size > 0) {
             msgpack::object* p = o.via.array.ptr;
             msgpack::object* const pend = o.via.array.ptr + o.via.array.size;
-            typename std::vector<T, Alloc>::iterator it = v.begin();
+            size_t i = 0;
             do {
-                p->convert(*it);
+                if (i >= target_size) {
+                    T item;
+                    p->convert(item);
+                    v.push_back(item);
+                } else {
+                    p->convert(v[i]);
+                }
+                ++i;
                 ++p;
-                ++it;
             } while(p < pend);
         }
         return o;
