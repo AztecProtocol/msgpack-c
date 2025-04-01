@@ -25,7 +25,7 @@
 
 #ifdef NO_EXCEPTIONS
 struct AbortStream {
-    void operator<< [[noreturn]] (const auto& error) {
+    [[noreturn]] void operator<< (const auto& error) {
         info(error.what());
         std::abort();
     }
