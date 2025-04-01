@@ -23,7 +23,7 @@
 
 #endif // defined(MSGPACK_NO_BOOST)
 
-#ifdef __wasm__
+#ifdef NO_EXCEPTIONS
 struct AbortStream {
     void operator<< [[noreturn]] (const auto& error) {
         info(error.what());
