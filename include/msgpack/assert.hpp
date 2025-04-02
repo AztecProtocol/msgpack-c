@@ -22,21 +22,4 @@
 #define MSGPACK_ASSERT BOOST_ASSERT
 
 #endif // defined(MSGPACK_NO_BOOST)
-
-#ifdef NO_EXCEPTIONS
-struct AbortStream {
-    void operator<< [[noreturn]] (const auto& error) {
-        info(error.what());
-        std::abort();
-    }
-};
-#define THROW AbortStream() <<
-#define try if (true)
-#define catch(...) if (false)
-#define RETHROW 
-#else
-#define THROW throw
-#define RETHROW THROW
-#endif
-
 #endif // MSGPACK_ASSERT_HPP
