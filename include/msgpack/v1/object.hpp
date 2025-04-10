@@ -32,11 +32,11 @@ struct object_kv {
     msgpack::object val;
 };
 
-struct object::with_zone : msgpack::object {
-    with_zone(msgpack::zone& z) : zone(z) { }
+struct object_with_zone_type : msgpack::object {
+    object_with_zone_type(msgpack::zone& z) : zone(z) { }
     msgpack::zone& zone;
 private:
-    with_zone();
+    object_with_zone_type();
 };
 
 

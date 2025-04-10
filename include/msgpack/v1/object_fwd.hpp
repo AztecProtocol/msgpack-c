@@ -68,6 +68,8 @@ public:
 
 #endif // !defined(MSGPACK_USE_CPP03)
 
+struct object_with_zone_type;
+
 /// Object class that corresponding to MessagePack format object
 /**
  * See https://github.com/msgpack/msgpack-c/wiki/v1_1_cpp_object
@@ -219,7 +221,8 @@ struct object {
     template <typename T>
     object& operator=(const T& v);
 
-    struct with_zone;
+    // Not a nested struct (i.e. 'struct with_zone;') to work around MSVC C++20 modules error C2504
+    typedef object_with_zone_type with_zone;
 
 protected:
     struct implicit_type;
