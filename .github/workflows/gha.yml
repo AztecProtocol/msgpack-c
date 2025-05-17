@@ -84,7 +84,7 @@ jobs:
 
   linux:
     name: ${{ format('Linux (pattern {0})', matrix.pattern) }}
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
@@ -136,7 +136,7 @@ jobs:
 
         case ${{ matrix.pattern }} in
           0)
-            export CXX="clang++-10"
+            export CXX="clang++"
             export MSGPACK_CXX_VERSION="MSGPACK_CXX11=ON"
             ;;
           1)
@@ -144,7 +144,7 @@ jobs:
             export MSGPACK_CXX_VERSION="MSGPACK_CXX11=ON"
             ;;
           2)
-            export CXX="clang++-10"
+            export CXX="clang++"
             export MSGPACK_CXX_VERSION="MSGPACK_CXX14=ON"
             ;;
           3)
@@ -153,7 +153,7 @@ jobs:
             export MSGPACK_USE_STD_VARIANT_ADAPTOR="MSGPACK_USE_STD_VARIANT_ADAPTOR=ON"
             ;;
           4)
-            export CXX="clang++-10"
+            export CXX="clang++"
             export MSGPACK_CXX_VERSION="MSGPACK_CXX20=ON"
             export NO_BOOST="-DMSGPACK_NO_BOOST"
             ;;
@@ -162,7 +162,7 @@ jobs:
             export ARCH=32
             ;;
           6)
-            export CXX="clang++-10"
+            export CXX="clang++"
             export API_VERSION=2
             ;;
           7)
@@ -170,7 +170,7 @@ jobs:
             export API_VERSION=1
             ;;
           8)
-            export CXX="clang++-10"
+            export CXX="clang++"
             export CHAR_SIGN="unsigned"
             ;;
           9)
@@ -178,7 +178,7 @@ jobs:
             export X3_PARSE="ON"
             ;;
           10)
-            export CXX="clang++-10"
+            export CXX="clang++"
             export ACTION="ci/build_regression.sh"
             ;;
           11)

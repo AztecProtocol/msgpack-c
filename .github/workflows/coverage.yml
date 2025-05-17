@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v3
     - name: Install build dependencies
       run: |
         sudo apt-get update
@@ -24,7 +24,7 @@ jobs:
 
     - name: Cache boost
       id: cache-boost
-      uses: actions/cache@v1
+      uses: actions/cache@v3
       with:
         path: ~/boost-prefix/
         key: ${{ runner.os }}-boost-1-85-0-2024-05-27
@@ -35,7 +35,7 @@ jobs:
 
     - name: Cache zlib
       id: cache-zlib
-      uses: actions/cache@v1
+      uses: actions/cache@v3
       with:
         path: ~/zlib-prefix/
         key: ${{ runner.os }}-zlib-64-1-2-11-2021-08-09
