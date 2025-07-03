@@ -87,6 +87,7 @@ struct is_pointer;
 
 #include <memory>
 #include <tuple>
+#include <type_traits>
 
 namespace msgpack {
 /// @cond
