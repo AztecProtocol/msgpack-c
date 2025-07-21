@@ -90,6 +90,7 @@ BOOST_AUTO_TEST_CASE(fbuffer)
     fbuf.write("a", 1);
     fbuf.write("a", 1);
     fbuf.write("a", 1);
+    fbuf.write("", 0);
 
     fflush(file);
     rewind(file);
